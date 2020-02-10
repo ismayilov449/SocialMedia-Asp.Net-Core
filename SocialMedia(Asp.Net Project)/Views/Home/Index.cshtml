@@ -1,0 +1,29 @@
+﻿@model List<PostViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+
+    <div class="text-center">
+        <h1 class="display-4">Welcome @User.Identity.Name</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+        @foreach (var item in Model)
+        {
+
+            <div class="card" style="width: 18rem;">
+                <img src="~/images/@item.ImageURL" style="height:100px ; width:auto;" class="card-img-top" alt="@item.ImageURL">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                    <p class="card-text">@item.Description</p>
+                    <a href="#" class="btn btn-primary">See more...</a>
+                </div>
+            </div>
+
+        }
+
+    </div>
+
+}

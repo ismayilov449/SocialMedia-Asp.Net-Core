@@ -1,0 +1,17 @@
+﻿@model SocialMedia_Asp.Net_Project_.Entities.AppUser
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<li class="nav-item">
+    @*<a class="nav-link" asp-action="Logout" asp-controller="Account">Logout</a>*@
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            User : @User.Identity.Name
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" asp-action="Logout" asp-controller="Account">Logout</a>
+            <a class="dropdown-item" asp-action="UserProfile" asp-controller="Account" asp-route-id="@Model.Id">@User.Identity.Name</a>
+            <a class="dropdown-item" href="#">Register</a>
+        </div>
+    </div>
+</li>

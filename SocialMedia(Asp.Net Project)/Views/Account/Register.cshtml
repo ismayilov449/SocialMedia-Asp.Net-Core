@@ -1,0 +1,39 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>Register</h1>
+
+<div class="my-5">
+    <form asp-action="Register" asp-controller="Account" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input type="text" class="form-control" asp-for="Name"   placeholder="Name">
+
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Surname"></label>
+            <input type="text" class="form-control" asp-for="Surname"   placeholder="Surname">
+
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input type="email" class="form-control" asp-for="Email" aria-describedby="emailHelp" placeholder="Enter email">
+            <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <input type="password" class="form-control" asp-for="Password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="file">Example file input</label>
+            <input type="file" class="form-control-file" id="file" name="file">
+        </div>
+        <button type="submit" class="btn btn-primary">SignIn</button>
+    </form>
+</div>
