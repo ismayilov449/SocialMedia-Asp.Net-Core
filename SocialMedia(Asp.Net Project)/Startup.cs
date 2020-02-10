@@ -50,7 +50,7 @@ namespace SocialMedia_Asp.Net_Project_
 
             services.AddIdentity<AppUser, IdentityRole>(options =>
             {
-
+                 
                 options.User.RequireUniqueEmail = true;
                 options.Password.RequiredLength = 6;
                 options.Password.RequireLowercase = false;

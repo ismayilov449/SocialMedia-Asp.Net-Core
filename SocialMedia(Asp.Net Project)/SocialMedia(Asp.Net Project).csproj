@@ -43,7 +43,6 @@
 
 
   <ItemGroup>
-    <Folder Include="NewFolder\" />
     <Folder Include="wwwroot\userimg\" />
   </ItemGroup>
 
