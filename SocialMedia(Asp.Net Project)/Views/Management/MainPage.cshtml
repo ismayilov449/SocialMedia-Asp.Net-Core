@@ -1,0 +1,39 @@
+﻿@model MainPostViewModel
+@{
+    ViewData["Title"] = "MainPage";
+}
+
+<h1>MainPage</h1>
+
+<form asp-action="AddPost" asp-controller="Management" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All"></div>
+
+    <div class="form-group">
+        <label asp-for="Post.Description"></label>
+        <input type="text" asp-for="Post.Description" placeholder="Write here..." class="form-control" />
+
+    </div>
+
+    <div class="form-group">
+        <label for="file">Example file input</label>
+        <input type="file" class="form-control-file" id="file" name="file">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Share post</button>
+</form>
+
+
+
+@foreach (var item in Model.Posts)
+{
+
+    <div class="card" style="width: 18rem;">
+        <img src="~/images/@item.ImageURL" style="height:100px ; width:auto;" class="card-img-top" alt="@item.ImageURL">
+        <div class="card-body">
+            <h5 class="card-title">@item.Title</h5>
+            <p class="card-text">@item.Description</p>
+            <a asp-route-postId="@item.Id" asp-action="FullPost" asp-controller="Management" class="btn btn-primary">See more...</a>
+        </div>
+    </div>
+
+}

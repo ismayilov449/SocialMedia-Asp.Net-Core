@@ -1,0 +1,13 @@
+﻿@model PostViewModel
+@{
+    ViewData["Title"] = "FullPost";
+}
+
+<h1>FullPost</h1>
+
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="~/images/@Model.ImageURL" alt="Card image cap">
+    <div class="card-body">
+        <p class="card-text">@Model.Description</p>
+    </div>
+</div>

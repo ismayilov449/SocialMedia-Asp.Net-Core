@@ -48,7 +48,7 @@ namespace SocialMedia_Asp.Net_Project_.Controllers
 
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("MainPage", "Management");
                     }
                     else
                     {
@@ -102,7 +102,7 @@ namespace SocialMedia_Asp.Net_Project_.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("MainPage", "Management");
                 }
                 else
                 {

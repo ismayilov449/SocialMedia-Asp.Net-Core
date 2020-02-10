@@ -47,7 +47,7 @@ namespace SocialMedia_Asp.Net_Project_
             services.AddTransient<IPostRepository, EfPostRepository>();
             services.AddTransient<ICommentRepository, EfCommentRepository>();
             services.AddTransient<IUnitOfWork, EfUnitOfWork>();
-
+            
             services.AddIdentity<AppUser, IdentityRole>(options =>
             {
                  

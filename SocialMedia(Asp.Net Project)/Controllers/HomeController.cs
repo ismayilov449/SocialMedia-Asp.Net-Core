@@ -23,27 +23,8 @@ namespace SocialMedia_Asp.Net_Project_.Controllers
 
         public IActionResult Index()
         {
-
-            var posts = uow.Posts.GetAll();
-
-            var currPost = new List<PostViewModel>();
-
-            foreach (var post in posts)
-            {
-                currPost.Add(new PostViewModel()
-                {
-                    Id = post.Id,
-                    Title = post.Title,
-                    UserId = post.UserId,
-                    ImageURL = post.ImageURL,
-                    Description = post.Description,
-                    Comments = uow.Comments.GetCommentsByPostId(post.Id)
-
-                }) ;
-            }
-           
-
-            return View(currPost);
+             
+            return View();
         }
 
         public IActionResult Privacy()
