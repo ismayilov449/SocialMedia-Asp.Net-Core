@@ -27,13 +27,19 @@
 @foreach (var item in Model.Posts)
 {
 
-    <div class="card" style="width: 18rem;">
+    <div class="card" style="width: 24rem;">
         <img src="~/images/@item.ImageURL" style="height:100px ; width:auto;" class="card-img-top" alt="@item.ImageURL">
         <div class="card-body">
             <h5 class="card-title">@item.Title</h5>
             <p class="card-text">@item.Description</p>
             <a asp-route-postId="@item.Id" asp-action="FullPost" asp-controller="Management" class="btn btn-primary">See more...</a>
+            @if (User.Identity.Name == item.UserName)
+            {
+                <a  asp-route-postId="@item.Id" asp-action="DeletePost" asp-controller="Management" class="btn btn-danger">Delete Post</a>
+                <a  asp-route-postId="@item.Id" asp-action="EditPost" asp-controller="Management" class="btn btn-warning">Edit Post</a>
+            }
         </div>
+
     </div>
 
 }

@@ -22,6 +22,8 @@ namespace SocialMedia_Asp.Net_Project_.Models
 
         public string UserId { get; set; }
 
+        public string UserName { get; set; }
+        public Comment Comment { get; set; }
         public IEnumerable<Comment> Comments { get; set; }
 
     }

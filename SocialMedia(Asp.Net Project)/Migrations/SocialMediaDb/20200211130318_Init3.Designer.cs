@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialMedia_Asp.Net_Project_.DAL;
 
 namespace SocialMedia_Asp.Net_Project_.Migrations.SocialMediaDb
 {
     [DbContext(typeof(SocialMediaDbContext))]
-    partial class SocialMediaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200211130318_Init3")]
+    partial class Init3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,8 +35,6 @@ namespace SocialMedia_Asp.Net_Project_.Migrations.SocialMediaDb
 
                     b.Property<string>("UserId")
                         .IsRequired();
-
-                    b.Property<string>("UserName");
 
                     b.HasKey("Id");
 
@@ -59,8 +59,6 @@ namespace SocialMedia_Asp.Net_Project_.Migrations.SocialMediaDb
 
                     b.Property<string>("UserId")
                         .IsRequired();
-
-                    b.Property<string>("UserName");
 
                     b.HasKey("Id");
 
