@@ -19,7 +19,10 @@ namespace SocialMedia_Asp.Net_Project_.Entities
 
         [Required]
         public string UserId { get; set; }
-         
-         
+
+        public string UserName { get; set; }
+
+        public string UserFullName { get; set; }
+
     }
 }

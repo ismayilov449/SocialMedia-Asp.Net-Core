@@ -11,5 +11,9 @@ namespace SocialMedia_Asp.Net_Project_.Models
         public List<PostViewModel> Posts { get; set; }
 
         public Post Post { get; set; }
+
+        public Comment Comment { get; set; }
+
+        public int PostId { get; set; }
     }
 }

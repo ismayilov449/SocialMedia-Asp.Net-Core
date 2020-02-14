@@ -3,6 +3,8 @@
     ViewData["Title"] = "FullPost";
 }
 
+
+
 <h1>FullPost</h1>
 
 <div class="card" style="width: 18rem;">
@@ -10,4 +12,48 @@
     <div class="card-body">
         <p class="card-text">@Model.Description</p>
     </div>
+    @foreach (var item in Model.Comments)
+    {
+        <p id="descriptionp @item.Id" onclick="editPost(@item.Id)" style="visibility:visible" class="card-text">@item.UserFullName - @item.Description</p>
+        <input id="descriptioninput @item.Id" type="text" asp-for="@item.Description" style="visibility:hidden" />
+        @if (User.Identity.Name == item.UserName)
+        {
+            <a asp-route-commentId="@item.Id" asp-action="DeleteComment" asp-controller="Management" class="btn btn-danger">Delete</a>
+            <a id="editDom" onclick="editPost(@item.Id)" class="btn btn-warning">Edit</a>
+
+        }
+    }
+
+
 </div>
+<form asp-action="AddComment" asp-controller="Management" method="post">
+
+    <input name="description" type="text" value="@Model.Comment.Description">
+
+    <button type="submit" class="btn btn-primary">Add Comment</button>
+</form>
+
+<script>
+function editPost(id) {
+ // document.getElementById("descriptionp "+id).value = "";
+     var x = document.getElementById("editDom");
+
+    if(x.text = "Edit"){
+        document.getElementById("descriptioninput "+id).style.visibility='visible';
+        document.getElementById("editDom").text = "Save";
+
+         document.getElementById("editDom").className = "btn btn-primary";
+         document.getElementById("editDom").onclick = "editPost("+id+")";
+
+    }else{
+
+         document.getElementById("descriptioninput "+id).style.visibility='hidden';
+         document.getElementById("editDom").text = "Edit";
+         document.getElementById("editDom").onclick = "editPost("+id+")";
+         document.getElementById("editDom").className = "btn btn-warning";
+    }
+
+
+
+}
+</script>

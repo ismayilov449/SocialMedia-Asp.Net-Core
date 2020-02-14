@@ -18,6 +18,7 @@ namespace SocialMedia_Asp.Net_Project_.Controllers
     {
         private readonly IUnitOfWork uow;
         private readonly UserManager<AppUser> userManager;
+        private static int ClickedPostId = 0;
 
         public ManagementController(IUnitOfWork _uow, UserManager<AppUser> _userManager)
         {
@@ -47,6 +48,7 @@ namespace SocialMedia_Asp.Net_Project_.Controllers
                     Title = post.Title,
                     UserId = post.UserId,
                     ImageURL = post.ImageURL,
+                    UserName = post.UserName,
                     Description = post.Description,
                     Comments = uow.Comments.GetCommentsByPostId(post.Id)
 
@@ -84,6 +86,8 @@ namespace SocialMedia_Asp.Net_Project_.Controllers
                 {
                     Description = mainPostVM.Post.Description,
                     UserId = user.Id,
+                    UserName = user.UserName,
+                    UserFullName = user.Name + " " + user.Surname,
                     ImageURL = mainPostVM.Post.ImageURL,
                     Title = ""
                 };
@@ -94,14 +98,45 @@ namespace SocialMedia_Asp.Net_Project_.Controllers
 
             return RedirectToAction("MainPage", "Management");
         }
-   
-    
-    
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddComment(string description)
+        {
+
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            if (user != null)
+            {
+
+                Comment currComment = new Comment()
+                {
+                    Description = description,
+                    UserId = user.Id,
+                    UserFullName = user.Name + " " + user.Surname,
+                    UserName = user.UserName,
+                    PostId = ClickedPostId
+
+                };
+
+                uow.Comments.Add(currComment);
+                uow.SaveChanges();
+            }
+
+
+            //return RedirectToAction("FullPost", "Management", ClickedPostId);
+            return (RedirectToAction("FullPost", new { postId = ClickedPostId }));
+        }
+
+
+
+
 
         [HttpGet]
         public async Task<IActionResult> FullPost(int postId)
         {
             var currPost = new PostViewModel();
+            currPost.Comment = new Comment();
             var clickedPost = uow.Posts.Find(i => i.Id == postId).FirstOrDefault();
             var clickedPostComments = uow.Comments.GetCommentsByPostId(postId);
 
@@ -109,9 +144,57 @@ namespace SocialMedia_Asp.Net_Project_.Controllers
             currPost.Description = clickedPost.Description;
             currPost.ImageURL = clickedPost.ImageURL;
             currPost.UserId = clickedPost.UserId;
+            currPost.UserName = clickedPost.UserName;
             currPost.Title = "";
+
+            ClickedPostId = postId;
 
             return View(currPost);
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> DeletePost(int postId)
+        {
+
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            if (user != null)
+            {
+                 var currentPost = uow.Posts.Find(i => i.Id == postId).FirstOrDefault();
+
+                 uow.Posts.Delete(currentPost);
+                uow.SaveChanges();
+            }
+
+            return RedirectToAction("MainPage", "Management");
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> EditPost(int postId)
+        {
+           
+                var currentPost = uow.Posts.Find(i => i.Id == postId).FirstOrDefault();
+
+                uow.Posts.Delete(currentPost);
+                uow.SaveChanges();
+          
+            return RedirectToAction("MainPage", "Management");
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteComment(int commentId)
+        {
+            var currentComment = uow.Comments.Find(i => i.Id == commentId).FirstOrDefault();
+
+            uow.Comments.Delete(currentComment);
+            uow.SaveChanges();
+
+
+
+            return (RedirectToAction("FullPost", new { postId = ClickedPostId }));
+        }
+
     }
 }
