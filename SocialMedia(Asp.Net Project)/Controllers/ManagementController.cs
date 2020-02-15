@@ -170,16 +170,32 @@ namespace SocialMedia_Asp.Net_Project_.Controllers
         }
 
 
-        [HttpGet]
-        public async Task<IActionResult> EditPost(int postId)
+        [HttpPost]
+        public async Task<IActionResult> EditPost(int postId,string description)
         {
            
                 var currentPost = uow.Posts.Find(i => i.Id == postId).FirstOrDefault();
+                currentPost.Description = description;
 
-                uow.Posts.Delete(currentPost);
+                uow.Posts.Edit(currentPost);
                 uow.SaveChanges();
           
             return RedirectToAction("MainPage", "Management");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditComment(int commentId, string description)
+        {
+
+            var currentComment = uow.Comments.Find(i => i.Id == commentId).FirstOrDefault();
+            currentComment.Description = description;
+            uow.Comments.Edit(currentComment);
+            uow.SaveChanges();
+
+
+            return (RedirectToAction("FullPost", new { postId = ClickedPostId }));
+
         }
 
 

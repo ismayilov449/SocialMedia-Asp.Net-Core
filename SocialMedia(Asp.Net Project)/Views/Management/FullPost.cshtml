@@ -14,12 +14,18 @@
     </div>
     @foreach (var item in Model.Comments)
     {
-        <p id="descriptionp @item.Id" onclick="editPost(@item.Id)" style="visibility:visible" class="card-text">@item.UserFullName - @item.Description</p>
-        <input id="descriptioninput @item.Id" type="text" asp-for="@item.Description" style="visibility:hidden" />
+        <p id="descriptionp @item.Id" onclick="editComment(@item.Id)" style="visibility:visible" class="card-text">@item.UserFullName - @item.Description</p>
         @if (User.Identity.Name == item.UserName)
         {
-            <a asp-route-commentId="@item.Id" asp-action="DeleteComment" asp-controller="Management" class="btn btn-danger">Delete</a>
-            <a id="editDom" onclick="editPost(@item.Id)" class="btn btn-warning">Edit</a>
+
+            <a id="editDom" onclick="editComment(@item.Id)" class="btn btn-warning">Edit</a>
+            <form asp-action="EditComment" asp-controller="Management" method="post">
+                <input id="descriptioninput @item.Id" type="text" asp-for="@item.Description" name="description" value="@item.Description" style="visibility:hidden" />
+                <input type="hidden" name="commentId" value="@item.Id"/>
+
+                <button id="SaveBtn @item.Id" type="submit" class="btn btn-primary" style="visibility:hidden" onclick="saveComment(@item.Id)">Save</button>
+            </form>
+            <a id="DeleteBtn @item.Id" asp-route-commentId="@item.Id" asp-action="DeleteComment" asp-controller="Management" class="btn btn-danger" style="visibility:visible">Delete</a>
 
         }
     }
@@ -34,26 +40,23 @@
 </form>
 
 <script>
-function editPost(id) {
- // document.getElementById("descriptionp "+id).value = "";
-     var x = document.getElementById("editDom");
+function editComment(id) {
 
-    if(x.text = "Edit"){
+
         document.getElementById("descriptioninput "+id).style.visibility='visible';
-        document.getElementById("editDom").text = "Save";
+        document.getElementById("editDom").style.visibility='collapse';
+        document.getElementById("SaveBtn "+id).style.visibility='visible';
+        document.getElementById("DeleteBtn "+id).style.visibility='collapse';
 
-         document.getElementById("editDom").className = "btn btn-primary";
-         document.getElementById("editDom").onclick = "editPost("+id+")";
+}
 
-    }else{
-
-         document.getElementById("descriptioninput "+id).style.visibility='hidden';
-         document.getElementById("editDom").text = "Edit";
-         document.getElementById("editDom").onclick = "editPost("+id+")";
-         document.getElementById("editDom").className = "btn btn-warning";
-    }
+    function saveComment(id) {
 
 
+        document.getElementById("descriptioninput "+id).style.visibility='collapse';
+        document.getElementById("editDom").style.visibility='visible';
+        document.getElementById("SaveBtn "+id).style.visibility='collapse';
+        document.getElementById("DeleteBtn "+id).style.visibility='visible';
 
 }
 </script>

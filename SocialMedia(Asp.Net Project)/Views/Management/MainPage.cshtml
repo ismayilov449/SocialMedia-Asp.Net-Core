@@ -32,14 +32,48 @@
         <div class="card-body">
             <h5 class="card-title">@item.Title</h5>
             <p class="card-text">@item.Description</p>
-            <a asp-route-postId="@item.Id" asp-action="FullPost" asp-controller="Management" class="btn btn-primary">See more...</a>
+            <a id="SeeMoreBtn @item.Id" asp-route-postId="@item.Id" asp-action="FullPost" asp-controller="Management" class="btn btn-primary" style="visibility:visible">See more...</a>
             @if (User.Identity.Name == item.UserName)
             {
-                <a  asp-route-postId="@item.Id" asp-action="DeletePost" asp-controller="Management" class="btn btn-danger">Delete Post</a>
-                <a  asp-route-postId="@item.Id" asp-action="EditPost" asp-controller="Management" class="btn btn-warning">Edit Post</a>
+        <form asp-action="EditPost" asp-controller="Management" method="post">
+            <input type="text" name="description" value="@item.Description" style="visibility:hidden" id="descriptioninput @item.Id" />
+            <input type="hidden" name="postId" value="@item.Id"/>
+
+            <a id="DeleteBtn @item.Id" asp-route-postId="@item.Id" asp-action="DeletePost" asp-controller="Management" class="btn btn-danger" style="visibility:visible">Delete</a>
+            <a id="EditPost @item.Id" onclick="editPost(@item.Id)" class="btn btn-warning">Edit</a>
+            
+            <button id="SaveBtn @item.Id" type="submit" class="btn btn-primary" style="visibility:hidden" onclick="savePost(@item.Id)">Save</button>
+        </form>
             }
         </div>
 
     </div>
 
 }
+
+
+<script>
+function editPost(id) {
+
+
+        document.getElementById("descriptioninput "+id).style.visibility='visible';
+        //document.getElementById("editDom").style.visibility='collapse';
+        document.getElementById("SeeMoreBtn "+id).style.visibility='collapse';
+        document.getElementById("DeleteBtn "+id).style.visibility='collapse';
+        document.getElementById("EditPost "+id).style.visibility='collapse';
+        document.getElementById("SaveBtn "+id).style.visibility='visible';
+
+
+
+}
+
+    function savePost(id) {
+
+
+        document.getElementById("descriptioninput "+id).style.visibility='collapse';
+        document.getElementById("editDom").style.visibility='visible';
+        document.getElementById("SaveBtn "+id).style.visibility='collapse';
+        document.getElementById("DeleteBtn "+id).style.visibility='visible';
+
+}
+</script>
