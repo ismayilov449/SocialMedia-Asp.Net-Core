@@ -9,6 +9,8 @@ namespace SocialMedia_Asp.Net_Project_.Repository.Abstract
     {
         IPostRepository Posts { get; }
         ICommentRepository Comments { get; }
+
+        IFriendsRepository Friends { get; }
         int SaveChanges();
     }
 }

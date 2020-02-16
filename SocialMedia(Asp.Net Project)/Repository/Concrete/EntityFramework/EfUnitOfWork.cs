@@ -22,7 +22,10 @@ namespace SocialMedia_Asp.Net_Project_.Repository.Concrete.EntityFramework
 
         private ICommentRepository _comments;
 
-       
+        private IFriendsRepository _friends;
+
+
+
 
 
         public IPostRepository Posts
@@ -41,7 +44,14 @@ namespace SocialMedia_Asp.Net_Project_.Repository.Concrete.EntityFramework
             }
         }
 
-      
+        public IFriendsRepository Friends
+        {
+            get
+            {
+                return _friends ?? (_friends = new EfFriendsRepository(context));
+            }
+        }
+
 
         public int SaveChanges()
         {
