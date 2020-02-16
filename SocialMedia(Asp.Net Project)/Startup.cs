@@ -38,10 +38,10 @@ namespace SocialMedia_Asp.Net_Project_
 
 
             services.AddDbContext<UserIdentityDbContext>(options =>
-         options.UseSqlServer("Data Source=.;Database=SocialMediaUsers;Trusted_Connection=True"));
+         options.UseSqlServer("Data Source=ADMINISTRATOR\\SQLEXPRESS;Database=SocialMediaUsers;Trusted_Connection=True"));
 
             services.AddDbContext<SocialMediaDbContext>(options =>
-         options.UseSqlServer("Data Source=.;Database = SocaialMediaDB;Integrated Security=True"));
+         options.UseSqlServer("Data Source=ADMINISTRATOR\\SQLEXPRESS;Database = SocaialMediaDB;Integrated Security=True"));
 
 
             services.AddTransient<IPostRepository, EfPostRepository>();
