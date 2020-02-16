@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SocialMedia_Asp.Net_Project_.Entities;
 using SocialMedia_Asp.Net_Project_.Models;
+using SocialMedia_Asp.Net_Project_.Repository.Abstract;
 
 namespace SocialMedia_Asp.Net_Project_.Controllers
 {
@@ -18,11 +19,14 @@ namespace SocialMedia_Asp.Net_Project_.Controllers
 
         private UserManager<AppUser> userManager;
         private SignInManager<AppUser> signInManager;
+        private IUnitOfWork uow;
 
-        public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
+
+        public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IUnitOfWork _uow)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            uow = _uow;
         }
 
 
@@ -128,7 +132,7 @@ namespace SocialMedia_Asp.Net_Project_.Controllers
                 ViewBag.UserId = user.Id;
 
                 return PartialView(user);
-                 
+
             }
             return NotFound();
 
@@ -138,8 +142,52 @@ namespace SocialMedia_Asp.Net_Project_.Controllers
         public async Task<IActionResult> UserProfile(string id)
         {
             var user = await userManager.FindByIdAsync(id);
+            var curruser = await userManager.FindByNameAsync(User.Identity.Name);
+            var currentuser = new UserFriendRequestViewModel();
+            currentuser.CurrentUser = user;
 
-            return View(user);
+            if (user.Id != curruser.Id)
+            {
+
+                var requeststatus = uow.Friends.Find(i => i.UserId1 == curruser.Id && i.UserId2 == id).FirstOrDefault();
+
+                var requeststatusrevers = uow.Friends.Find(i => i.UserId1 == id && i.UserId2 == curruser.Id).FirstOrDefault();
+
+                if (requeststatusrevers != null)
+                {
+                    if (requeststatusrevers.Status == "Waiting")
+                    {
+                        currentuser.RequestStatus = "AcceptOrReject";
+                    }
+                    else if (requeststatusrevers.Status == "Accepted")
+                    {
+                        currentuser.RequestStatus = "Accepted";
+                    }
+                }
+                else
+                {
+
+                    if (requeststatus == null)
+                    {
+                        currentuser.RequestStatus = "None";
+
+                    }
+                    else
+                    {
+                        currentuser.RequestStatus = requeststatus.Status;
+
+                    }
+                }
+                return View(currentuser);
+            }
+            else
+            {
+                currentuser.CurrentUser = user;
+                currentuser.RequestStatus = "Ignore";
+
+                return View(currentuser);
+            }
+
         }
 
         [HttpGet]

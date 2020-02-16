@@ -21,5 +21,7 @@ namespace SocialMedia_Asp.Net_Project_.DAL
 
         public DbSet<Comment> Comments { get; set; }
 
+        public DbSet<Friends> Friends { get; set; }
+
     }
 }

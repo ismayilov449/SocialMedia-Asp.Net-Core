@@ -1,4 +1,4 @@
-﻿@model SocialMedia_Asp.Net_Project_.Entities.AppUser
+﻿@model SocialMedia_Asp.Net_Project_.Models.UserFriendRequestViewModel
 @{
     ViewData["Title"] = "UserProfile";
 }
@@ -47,9 +47,9 @@
     <h2 style="text-align:center">User Profile Card</h2>
 
     <div class="card">
-        <img src="~/userimg/@Model.ImageURL" alt="@Model.UserName" style="width:100%">
-        <h5>@Model.Email</h5>
-        <p class="title">@Model.UserName</p>
+        <img src="~/userimg/@Model.CurrentUser.ImageURL" alt="@Model.CurrentUser.UserName" style="width:100%">
+        <h5>@Model.CurrentUser.Email</h5>
+        <p class="title">@Model.CurrentUser.UserName</p>
         <p>AZTU</p>
         <div style="margin: 24px 0;">
             <a class="a" href="#"><i class="fa fa-dribbble"></i></a>
@@ -57,7 +57,33 @@
             <a class="a" href="#"><i class="fa fa-linkedin"></i></a>
             <a class="a" href="#"><i class="fa fa-facebook"></i></a>
         </div>
-        <p><a class="button btn badge-info" asp-action="RelUserPost" asp-controller="Managment" asp-route-id="@Model.Id">All Posts</a></p>
+
+        @if (Model.RequestStatus == "AcceptOrReject")
+        {
+            <p><a class="btn btn-primary" asp-action="AcceptFriendRequest" asp-controller="Follower" asp-route-userId="@Model.CurrentUser.Id">Accept</a></p>
+            <p><a class="btn btn-danger" asp-action="RejectFriendRequest" asp-controller="Follower" asp-route-userId="@Model.CurrentUser.Id">Reject</a></p>
+
+        }
+        @if (Model.RequestStatus == "Waiting")
+        {
+        <p><a class="button btn badge-info" asp-action="CancelFriendRequest" asp-controller="Follower" asp-route-userId="@Model.CurrentUser.Id">Cancel</a></p>
+        }
+        @if (@Model.RequestStatus == "Accepted")
+        {
+        <p><a class="button btn badge-info" asp-action="RemoveFriend" asp-controller="Follower" asp-route-userId="@Model.CurrentUser.Id">Remove From Friend List</a></p>
+        }
+        @if (@Model.RequestStatus == "None")
+        {
+        <p><a class="button btn badge-info" asp-action="AddFriend" asp-controller="Follower" asp-route-userId="@Model.CurrentUser.Id">Send Friend Request</a></p>
+
+        }
+        @if (@Model.RequestStatus == "Ignore")
+        {
+
+        }
+
+        @* <p><a class="button btn badge-info" asp-action="RelUserPost" asp-controller="Managment" asp-route-id="@Model.CurrentUser.Id">All Posts</a></p>*@
+
     </div>
 </div>
 
