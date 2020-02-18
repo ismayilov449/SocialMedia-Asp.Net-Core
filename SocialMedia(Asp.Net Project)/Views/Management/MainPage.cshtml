@@ -28,6 +28,7 @@
 {
 
     <div class="card" style="width: 24rem;">
+        <a asp-action="UserProfile" asp-controller="Account" asp-route-id="@item.UserId" class="btn btn-link">@item.UserName</a>
         <img src="~/images/@item.ImageURL" style="height:100px ; width:auto;" class="card-img-top" alt="@item.ImageURL">
         <div class="card-body">
             <h5 class="card-title">@item.Title</h5>
