@@ -68,15 +68,19 @@ namespace SocialMedia_Asp.Net_Project_.Controllers
         {
             var user = await userManager.FindByNameAsync(User.Identity.Name);
             var currentrequest = uow.Friends.Find(i => i.UserId1 == user.Id && i.UserId2 == userId).FirstOrDefault();
-
+            var currentrequestreverse = uow.Friends.Find(i => i.UserId1 == userId && i.UserId2 == user.Id).FirstOrDefault();
 
             if (user != null)
             {
                 if (currentrequest != null)
                 {
                     uow.Friends.Delete(currentrequest);
-                    uow.SaveChanges();
+                    
+                }else if(currentrequestreverse != null)
+                {
+                    uow.Friends.Delete(currentrequestreverse);
                 }
+                uow.SaveChanges();
             }
 
             return (RedirectToAction("UserProfile", "Account", new { id = userId }));
