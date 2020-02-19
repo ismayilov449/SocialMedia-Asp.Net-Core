@@ -3,6 +3,71 @@
     ViewData["Title"] = "MainPage";
 }
 
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .mySection{
+        display:flex;
+        
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* Style the header */
+    header {
+        background-color: #666;
+        padding: 30px;
+        text-align: center;
+        font-size: 35px;
+        color: white;
+    }
+
+    /* Create two columns/boxes that floats next to each other */
+    nav {
+        float: left;
+        width: 30%;
+        height: 300px; /* only for demonstration, should be removed */
+        background: #ccc;
+        padding: 20px;
+        margin-left:550px;
+    }
+
+        /* Style the list inside the menu */
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+    article {
+        float: left;
+        padding: 20px;
+        width: 70%;
+        background-color: #f1f1f1;
+        height: 300px; /* only for demonstration, should be removed */
+    }
+
+    /* Clear floats after the columns */
+    section:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    /* Style the footer */
+    footer {
+        background-color: #777;
+        padding: 10px;
+        text-align: center;
+        color: white;
+    }
+</style>
+
+
 <h1>MainPage</h1>
 
 <form asp-action="AddPost" asp-controller="Management" method="post" enctype="multipart/form-data">
@@ -22,37 +87,45 @@
     <button type="submit" class="btn btn-primary">Share post</button>
 </form>
 
+<section class="mySection">
+    <section>
+        @foreach (var item in Model.Posts)
+        {
 
+            <div class="card" style="width: 24rem;">
+                <a asp-action="UserProfile" asp-controller="Account" asp-route-id="@item.UserId" class="btn btn-link">@item.UserName</a>
+                <img src="~/images/@item.ImageURL" style="height:100px ; width:auto;" class="card-img-top" alt="@item.ImageURL">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                    <p class="card-text">@item.Description</p>
+                    <a id="SeeMoreBtn @item.Id" asp-route-postId="@item.Id" asp-action="FullPost" asp-controller="Management" class="btn btn-primary" style="visibility:visible">See more...</a>
+                    @if (User.Identity.Name == item.UserName)
+                    {
+                        <form asp-action="EditPost" asp-controller="Management" method="post">
+                            <input type="text" name="description" value="@item.Description" style="visibility:hidden" id="descriptioninput @item.Id" />
+                            <input type="hidden" name="postId" value="@item.Id" />
 
-@foreach (var item in Model.Posts)
-{
+                            <a id="DeleteBtn @item.Id" asp-route-postId="@item.Id" asp-action="DeletePost" asp-controller="Management" class="btn btn-danger" style="visibility:visible">Delete</a>
+                            <a id="EditPost @item.Id" onclick="editPost(@item.Id)" class="btn btn-warning">Edit</a>
 
-    <div class="card" style="width: 24rem;">
-        <a asp-action="UserProfile" asp-controller="Account" asp-route-id="@item.UserId" class="btn btn-link">@item.UserName</a>
-        <img src="~/images/@item.ImageURL" style="height:100px ; width:auto;" class="card-img-top" alt="@item.ImageURL">
-        <div class="card-body">
-            <h5 class="card-title">@item.Title</h5>
-            <p class="card-text">@item.Description</p>
-            <a id="SeeMoreBtn @item.Id" asp-route-postId="@item.Id" asp-action="FullPost" asp-controller="Management" class="btn btn-primary" style="visibility:visible">See more...</a>
-            @if (User.Identity.Name == item.UserName)
-            {
-        <form asp-action="EditPost" asp-controller="Management" method="post">
-            <input type="text" name="description" value="@item.Description" style="visibility:hidden" id="descriptioninput @item.Id" />
-            <input type="hidden" name="postId" value="@item.Id"/>
+                            <button id="SaveBtn @item.Id" type="submit" class="btn btn-primary" style="visibility:hidden" onclick="savePost(@item.Id)">Save</button>
+                        </form>
+                    }
+                </div>
 
-            <a id="DeleteBtn @item.Id" asp-route-postId="@item.Id" asp-action="DeletePost" asp-controller="Management" class="btn btn-danger" style="visibility:visible">Delete</a>
-            <a id="EditPost @item.Id" onclick="editPost(@item.Id)" class="btn btn-warning">Edit</a>
-            
-            <button id="SaveBtn @item.Id" type="submit" class="btn btn-primary" style="visibility:hidden" onclick="savePost(@item.Id)">Save</button>
-        </form>
-            }
-        </div>
+            </div>
 
-    </div>
+        }
 
-}
-
-
+    </section>
+    <nav>
+        <ul>
+            <li><a href="#">London</a></li>
+            <li><a href="#">Paris</a></li>
+            <li><a href="#">Tokyo</a></li>
+        </ul>
+    </nav>
+</section>
 <script>
 function editPost(id) {
 

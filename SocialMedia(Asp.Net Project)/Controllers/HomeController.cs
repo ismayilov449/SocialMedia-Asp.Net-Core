@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SocialMedia_Asp.Net_Project_.DAL;
+using SocialMedia_Asp.Net_Project_.Hubs;
 using SocialMedia_Asp.Net_Project_.Models;
 using SocialMedia_Asp.Net_Project_.Repository.Abstract;
 
@@ -23,9 +24,17 @@ namespace SocialMedia_Asp.Net_Project_.Controllers
 
         public IActionResult Index()
         {
-             
+           
             return View();
         }
+
+        public async Task<IActionResult> Chat()
+        {
+           
+
+            return View();
+        }
+
 
         public IActionResult Privacy()
         {

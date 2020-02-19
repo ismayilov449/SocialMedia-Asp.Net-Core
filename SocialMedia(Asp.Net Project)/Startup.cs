@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialMedia_Asp.Net_Project_.DAL;
 using SocialMedia_Asp.Net_Project_.Entities;
+ 
 using SocialMedia_Asp.Net_Project_.Repository.Abstract;
 using SocialMedia_Asp.Net_Project_.Repository.Concrete.EntityFramework;
+using SocialMedia_Asp.Net_Project_.Hubs;
 
 namespace SocialMedia_Asp.Net_Project_
 {
+   
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -47,7 +47,9 @@ namespace SocialMedia_Asp.Net_Project_
             services.AddTransient<IPostRepository, EfPostRepository>();
             services.AddTransient<ICommentRepository, EfCommentRepository>();
             services.AddTransient<IUnitOfWork, EfUnitOfWork>();
-            
+
+            services.AddSignalR();
+
             services.AddIdentity<AppUser, IdentityRole>(options =>
             {
                  
@@ -85,12 +87,20 @@ namespace SocialMedia_Asp.Net_Project_
             app.UseCookiePolicy();
             app.UseAuthentication();
 
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chatHub");
+            });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
+           
         }
     }
 }
