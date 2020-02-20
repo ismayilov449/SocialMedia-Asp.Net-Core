@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
+using SocialMedia_Asp.Net_Project_.DAL;
+using SocialMedia_Asp.Net_Project_.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,15 +11,45 @@ namespace SocialMedia_Asp.Net_Project_.Hubs
 {
     public class ChatHub : Hub
     {
-        //public async Task Send(string name, string message)
-        //{
-        //    // Call the broadcastMessage method to update clients.
-        //    await Clients.All.SendAsync("broadcastMessage", name, message);
-        //}
 
-        public async Task SendSelectedUser(string forwardedUserId,string message)
+
+        private readonly UserIdentityDbContext context;
+        private readonly UserManager<AppUser> userManager;
+        public static List<string> onlineUsers;
+        public ChatHub(UserIdentityDbContext context, UserManager<AppUser> userManager)
         {
-            await Clients.Client(forwardedUserId).SendAsync("Send",message);
+            this.context = context;
+            this.userManager = userManager;
+            onlineUsers = new List<string>();
+        }
+
+        public override async Task OnConnectedAsync()
+        {
+            var user = await userManager.FindByNameAsync(Context.User.Identity.Name);
+            
+            user.ConnectionId = Context.ConnectionId;
+            user.IsOnline = true;
+            onlineUsers.Add(user.UserName);
+
+            await userManager.UpdateAsync(user);
+            await base.OnConnectedAsync();
+        }
+
+
+
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            var user = await userManager.FindByNameAsync(Context.User.Identity.Name);
+            user.IsOnline = false;
+            await userManager.UpdateAsync(user);
+
+            await base.OnDisconnectedAsync(exception);
+        }
+
+
+        public void SendMessage(string message, string user)
+        {
+            Clients.All.SendAsync("RecieveMessage", message);
         }
     }
 }

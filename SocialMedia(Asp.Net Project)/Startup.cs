@@ -9,8 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialMedia_Asp.Net_Project_.DAL;
 using SocialMedia_Asp.Net_Project_.Entities;
- 
-using SocialMedia_Asp.Net_Project_.Repository.Abstract;
+ using SocialMedia_Asp.Net_Project_.Repository.Abstract;
 using SocialMedia_Asp.Net_Project_.Repository.Concrete.EntityFramework;
 using SocialMedia_Asp.Net_Project_.Hubs;
 
@@ -38,14 +37,16 @@ namespace SocialMedia_Asp.Net_Project_
 
 
             services.AddDbContext<UserIdentityDbContext>(options =>
-         options.UseSqlServer("Data Source=ADMINISTRATOR\\SQLEXPRESS;Database=SocialMediaUsers;Trusted_Connection=True"));
+         options.UseSqlServer("Data Source = DESKTOP-VR1BS0K\\SQLEXPRESS;Database=SocialMediaUsers;Trusted_Connection=True"));
 
             services.AddDbContext<SocialMediaDbContext>(options =>
-         options.UseSqlServer("Data Source=ADMINISTRATOR\\SQLEXPRESS;Database = SocaialMediaDB;Integrated Security=True"));
+         options.UseSqlServer("Data Source = DESKTOP-VR1BS0K\\SQLEXPRESS;Database = SocaialMediaDB;Integrated Security=True"));
 
 
             services.AddTransient<IPostRepository, EfPostRepository>();
             services.AddTransient<ICommentRepository, EfCommentRepository>();
+            services.AddTransient<IFriendsRepository, EfFriendsRepository>();
+            services.AddTransient<IMessageRepository, EfMessageRepository>();
             services.AddTransient<IUnitOfWork, EfUnitOfWork>();
 
             services.AddSignalR();
@@ -89,7 +90,7 @@ namespace SocialMedia_Asp.Net_Project_
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<ChatHub>("/chatHub");
+                routes.MapHub<ChatHub>("/not");
             });
 
             app.UseMvc(routes =>

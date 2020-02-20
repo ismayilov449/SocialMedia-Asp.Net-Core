@@ -24,6 +24,7 @@ namespace SocialMedia_Asp.Net_Project_.Repository.Concrete.EntityFramework
 
         private IFriendsRepository _friends;
 
+        private IMessageRepository _messages;
 
 
 
@@ -49,6 +50,14 @@ namespace SocialMedia_Asp.Net_Project_.Repository.Concrete.EntityFramework
             get
             {
                 return _friends ?? (_friends = new EfFriendsRepository(context));
+            }
+        }
+
+        public IMessageRepository Messages
+        {
+            get
+            {
+                return _messages ?? (_messages = new EfMessageRepository(context));
             }
         }
 
