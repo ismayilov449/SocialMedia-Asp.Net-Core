@@ -1,0 +1,36 @@
+﻿@model IEnumerable<MessageListViewModel>
+<div class="inbox_chat">
+
+    @inject Microsoft.AspNetCore.Identity.UserManager<SocialMedia_Asp.Net_Project_.Entities.AppUser> userManager
+    <!--active_chat-->
+
+
+    @foreach (var item in Model)
+    {
+
+        <a asp-action="SendMessage" asp-controller="Message" asp-route-userId="@item.UserId">
+            <div class="chat_list @(item.UserId==ViewBag.Active ? "active_chat" : "" )">
+                <div class="chat_people">
+
+                    <div class="chat_img"> <img src="~/userimg/@item.ImageUrl" alt="pp"> </div>
+                    <div class="chat_ib">
+                        <h5>
+                            @item.MessagerSenderName <span class="chat_date">
+                            @ViewBag.Date @if (item.OnlineStatus == true)
+                            {<span class="ml-2 badge badge-success badge-counter">  </span>}
+                            else { <span class="ml-2 badge badge-danger badge-counter">  </span> }
+                        </span>
+                    </h5>
+                    <p>
+                        @item.MessageText
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </a>
+
+}
+
+
+</div>

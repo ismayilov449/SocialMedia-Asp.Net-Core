@@ -23,5 +23,6 @@ namespace SocialMedia_Asp.Net_Project_.DAL
 
         public DbSet<Friends> Friends { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
     }
 }

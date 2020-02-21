@@ -24,7 +24,7 @@ namespace SocialMedia_Asp.Net_Project_.Repository.Concrete.EntityFramework
 
         private IFriendsRepository _friends;
 
-        private IMessageRepository _messages;
+        private IMessageRepository _messages; 
 
 
 

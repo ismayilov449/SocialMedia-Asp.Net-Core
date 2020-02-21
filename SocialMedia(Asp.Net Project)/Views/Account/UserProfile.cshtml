@@ -58,6 +58,8 @@
             <a class="a" href="#"><i class="fa fa-facebook"></i></a>
         </div>
 
+
+
         @if (Model.RequestStatus == "AcceptOrReject")
         {
             <p><a class="btn btn-primary" asp-action="AcceptFriendRequest" asp-controller="Follower" asp-route-userId="@Model.CurrentUser.Id">Accept</a></p>
@@ -66,15 +68,16 @@
         }
         @if (Model.RequestStatus == "Waiting")
         {
-        <p><a class="button btn badge-info" asp-action="CancelFriendRequest" asp-controller="Follower" asp-route-userId="@Model.CurrentUser.Id">Cancel</a></p>
+            <p><a class="button btn badge-info" asp-action="CancelFriendRequest" asp-controller="Follower" asp-route-userId="@Model.CurrentUser.Id">Cancel</a></p>
         }
         @if (@Model.RequestStatus == "Accepted")
         {
-        <p><a class="button btn badge-info" asp-action="RemoveFriend" asp-controller="Follower" asp-route-userId="@Model.CurrentUser.Id">Remove From Friend List</a></p>
+            <p><a class="button btn badge-info" asp-action="SendMessage" asp-controller="Message" asp-route-userId="@Model.CurrentUser.Id">Send Message</a></p>
+            <p><a class="button btn badge-info" asp-action="RemoveFriend" asp-controller="Follower" asp-route-userId="@Model.CurrentUser.Id">Remove From Friend List</a></p>
         }
         @if (@Model.RequestStatus == "None")
         {
-        <p><a class="button btn badge-info" asp-action="AddFriend" asp-controller="Follower" asp-route-userId="@Model.CurrentUser.Id">Send Friend Request</a></p>
+            <p><a class="button btn badge-info" asp-action="AddFriend" asp-controller="Follower" asp-route-userId="@Model.CurrentUser.Id">Send Friend Request</a></p>
 
         }
         @if (@Model.RequestStatus == "Ignore")

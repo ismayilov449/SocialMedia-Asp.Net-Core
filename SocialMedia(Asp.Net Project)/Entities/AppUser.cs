@@ -9,7 +9,7 @@ namespace SocialMedia_Asp.Net_Project_.Entities
 {
     public class AppUser : IdentityUser
     {
-
+       
         [Required]
         public string Name { get; set; }
 
@@ -20,8 +20,11 @@ namespace SocialMedia_Asp.Net_Project_.Entities
         public int Age { get; set; }
 
         public string ImageURL { get; set; }
+
         public string ConnectionId { get; set; }
+        
         public bool IsOnline { get; set; }
+        
 
     }
 }

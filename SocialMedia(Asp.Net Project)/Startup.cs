@@ -12,6 +12,8 @@ using SocialMedia_Asp.Net_Project_.Entities;
  using SocialMedia_Asp.Net_Project_.Repository.Abstract;
 using SocialMedia_Asp.Net_Project_.Repository.Concrete.EntityFramework;
 using SocialMedia_Asp.Net_Project_.Hubs;
+using SocialMedia_Asp.Net_Project_.Services;
+using SocialMedia_Asp.Net_Project_.Services.Concrete;
 
 namespace SocialMedia_Asp.Net_Project_
 {
@@ -47,6 +49,7 @@ namespace SocialMedia_Asp.Net_Project_
             services.AddTransient<ICommentRepository, EfCommentRepository>();
             services.AddTransient<IFriendsRepository, EfFriendsRepository>();
             services.AddTransient<IMessageRepository, EfMessageRepository>();
+            services.AddTransient<IMessageService, MessageService>();
             services.AddTransient<IUnitOfWork, EfUnitOfWork>();
 
             services.AddSignalR();
